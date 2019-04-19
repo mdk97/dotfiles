@@ -1,0 +1,196 @@
+[colors]
+bg = #88000000
+fg = #FFFFFF
+
+bottom-bg = #88000000
+
+[bar/top]
+monitor = HDMI-0
+override-redirect = false
+bottom = false
+fixed-center = true
+width = 100%
+height = 24
+offset-x = 0
+offset-y = 0
+radius = 0
+background = ${colors.bg}
+foreground = ${colors.fg}
+line-size = 2
+border-size = 2
+border-color = #C12A80
+modules-left = i3
+modules-center = spotify
+modules-right = date
+font-0 = ModernDOS9x16:size=10;2
+font-1 = MaterialIcons:size=10;3
+font-2 = SymbolsNerdFont:size=10;3
+wm-name = i3
+tray-position = right
+cursor-click = pointer
+cursor-scroll = default
+module-margin = 1
+
+[bar/bottom]
+monitor = HDMI-0
+override-redirect = false
+bottom = true
+fixed-center = true
+width = 100%
+height = 24
+offset-x = 0
+offset-y = 0
+radius = 2.0
+background = ${colors.bottom-bg}
+foreground = ${colors.fg}
+line-size = 2
+border-size = 2
+border-color = #C12A80
+modules-left = hdd
+modules-center = cpu ram temp
+modules-right = network
+font-0 = ModernDOS9x16:size=10;2
+font-1 = MaterialIcons:size=10;3
+wm-name = i3
+cursor-click = pointer
+cursor-scroll = default
+module-margin = 1
+
+[bar/top2]
+monitor = DVI-D-0
+override-redirect = false
+bottom = false
+fixed-center = true
+width = 100%
+height = 24
+offset-x = 0
+offset-y = 0
+radius = 2.0
+background = ${colors.bg}
+foreground = ${colors.fg}
+line-size = 2
+border-size = 2
+border-color = #C12A80
+modules-left = i3
+modules-center = volume
+modules-right = date
+font-0 = ModernDOS9x16:size=10;2
+font-1 = MaterialIcons:size=10;3
+font-2 = SymbolsNerdFont:size=10;3
+wm-name = i3
+cursor-click = pointer
+cursor-scroll = default
+module-margin = 1
+
+[module/cpu]
+type = internal/cpu
+interval = 0.5
+format = <label>
+label = %percentage%%
+format-underline = #3322ff
+
+[module/ram]
+type = internal/memory
+interval = 1
+format = <label>
+label = %percentage_used%%
+format-underline = #ff3333
+
+[module/temp]
+type = internal/temperature
+interval = 0.5
+thermal-zone = 2
+format = <ramp> <label>
+format-warn = <ramp> <label-warn>
+label = %temperature-c%
+label-warn = %temperature-c%
+label-warn-foreground = #f00
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+
+[module/network]
+type = internal/network
+interface = eno1
+interval = 1
+format-connected = <label-connected>
+format-disconnected = <label-disconnected>
+format-packetloss = <animation-packetloss> <label-connected>
+
+label-connected =  %local_ip% [%downspeed%]
+label-disconnected =  disconnected
+
+animation-packetloss-0 = ⚠
+animation-packetloss-0-foreground = #FFFFFF
+animation-packetloss-1 = 
+animation-packetloss-1-foreground = #FFFFFF
+
+[module/i3]
+type = internal/i3
+pin-workspaces = true
+index-sort = true
+enable-click = true
+enable-scroll = true
+wrapping-scroll = false
+
+format = <label-state> <label-mode>
+label-mode = %mode%
+label-mode-padding = 1
+label-mode-background = #e60053
+
+label-focused = %index%
+label-focused-foreground = #ffffff
+label-focused-background = #3A1439
+label-focused-underline = #9423B9
+label-focused-padding = 1
+
+label-unfocused = %index%
+label-unfocused-padding = 1
+
+label-visible = %index%
+label-visible-underline = #555
+label-visible-padding = 1
+
+label-urgent = %index%
+label-urgent-foreground = #000000
+label-urgent-background = #bd2c40
+label-urgent-padding = 1
+
+[module/hdd]
+type = internal/fs
+
+mount-0 = /
+mount-1 = /mnt/Drive2
+
+interval = 2
+spacing = 4
+
+format-mounted = <label-mounted>
+format-unmounted = <label-unmounted>
+label-mounted = %mountpoint%: %used% of %total%
+label-unmounted = %mountpoint%: not mounted
+label-unmounted-foreground = #55
+
+[module/spotify]
+type = custom/script
+interval = 1
+format-prefix ="  "
+format-prefix-foreground = #1db954
+format = <label>
+exec = python ~/polybar-scripts/spotify-polybar.py -f '{artist}: {song}  '
+format-underline = #1db954
+
+[module/date]
+type = internal/date
+interval = 1
+date = "%%{F#FFF}%A, %d %B %Y %%{F#FFF}%H:%M%%{F#FFF}:%%{F#1db954}%S%%{F-} "
+
+[module/volume]
+type = internal/pulseaudio
+sink = alsa_output.usb-Logitech_Logitech_G430_Gaming_Headset-00.analog-stereo
+use-ui-max = true
+interval = 1
+format-volume = <label-volume>
+label-muted =   muted
+label-muted-foreground = #666
+label-volume =  %percentage%%
